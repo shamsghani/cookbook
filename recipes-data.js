@@ -2,7 +2,7 @@
 // Generated from 'cookbook recipes.txt', 'recipes full.txt', and 'cokcook pantry.txt'
 // Preserving 100% of instructions, chef tips, simultaneous operations, and pantry essentials.
 
-export const PANTRY_ITEMS = [
+const PANTRY_ITEMS = [
   {
     "id": "canned_tomatoes",
     "name": "Tomatoes (canned usually, for salan types situations)",
@@ -308,7 +308,7 @@ export const PANTRY_ITEMS = [
   }
 ];
 
-export const RECIPES = [
+const RECIPES = [
   {
     "id": "grilled-chicken",
     "title": "Default Grilled Chicken (Batch-Prep Edition)",
@@ -1984,7 +1984,7 @@ export const RECIPES = [
 ];
 
 // Flattened list of all searchable ingredients for the ingredient matcher
-export const ALL_INGREDIENTS = [
+const ALL_INGREDIENTS = [
   { id: "chicken", name: "Chicken (Boneless breast/thigh or cooked)", category: "Meat & Poultry", emoji: "🍗" },
   { id: "seekh_kabab", name: "Seekh Kebabs (Beef or Chicken)", category: "Freezer Staples", emoji: "🍢" },
   { id: "frozen_tenders", name: "Frozen Chicken Tenders / Cutlets", category: "Freezer Staples", emoji: "🍗" },
@@ -2018,16 +2018,27 @@ export const ALL_INGREDIENTS = [
 ];
 
 // Helper functions
-export function getRecipeById(id) {
+function getRecipeById(id) {
   return RECIPES.find(r => r.id === id) || null;
 }
 
-export function getPantryItemById(id) {
+function getPantryItemById(id) {
   return PANTRY_ITEMS.find(p => p.id === id) || null;
 }
 
+// Universal export: attaches to window.CookbookData in browsers and module.exports in Node/bundlers
 if (typeof window !== 'undefined') {
   window.CookbookData = {
+    PANTRY_ITEMS,
+    RECIPES,
+    ALL_INGREDIENTS,
+    getRecipeById,
+    getPantryItemById
+  };
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
     PANTRY_ITEMS,
     RECIPES,
     ALL_INGREDIENTS,
