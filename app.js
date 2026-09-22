@@ -1503,11 +1503,20 @@
 
     // Keyboard navigation
     window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (document.getElementById('feedback-modal-backdrop')?.classList.contains('open')) {
+          closeFeedbackModal();
+          return;
+        }
+        if (STATE.activeRecipeId) {
+          closeRecipeModal();
+          return;
+        }
+      }
+
       if (!STATE.activeRecipeId) return;
 
-      if (e.key === 'Escape') {
-        closeRecipeModal();
-      } else if (STATE.activeMode === 'stepwise') {
+      if (STATE.activeMode === 'stepwise') {
         if (e.key === 'ArrowRight' || e.key === ' ') {
           e.preventDefault();
           document.getElementById('btn-step-next')?.click();
@@ -1517,6 +1526,171 @@
         }
       }
     });
+  }
+
+  // --------------------------------------------------------------------------
+  // Suggest Recipe & Feedback Controller
+  // --------------------------------------------------------------------------
+  let currentFeedbackType = 'recipe';
+
+  const feedbackPlaceholders = {
+    recipe: {
+      title: 'e.g., Spicy Tuna Mayo Rice Bowl, Garlic Egg Noodles...',
+      details: 'List key ingredients, preparation steps, or cooking tips...'
+    },
+    correction: {
+      title: 'e.g., Step 3 in Cheesy Pasta needs more salt...',
+      details: 'Describe what needs fixing or how to improve it...'
+    },
+    pantry: {
+      title: 'e.g., Canned Black Beans, Frozen Dumplings, Tortillas...',
+      details: 'Why is this a great abroad living staple? What meals does it unlock?'
+    },
+    general: {
+      title: 'e.g., Feature request, layout tweak, UI idea...',
+      details: 'Describe your idea or feedback for improving the cookbook...'
+    }
+  };
+
+  function openFeedbackModal(defaultType = 'recipe') {
+    currentFeedbackType = defaultType;
+    const backdrop = document.getElementById('feedback-modal-backdrop');
+    if (backdrop) {
+      backdrop.classList.add('open');
+      backdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    document.querySelectorAll('#feedback-type-chips .chip-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.type === defaultType);
+    });
+    updateFeedbackPlaceholders(defaultType);
+
+    setTimeout(() => {
+      document.getElementById('feedback-title-input')?.focus();
+    }, 100);
+  }
+
+  function closeFeedbackModal() {
+    const backdrop = document.getElementById('feedback-modal-backdrop');
+    if (backdrop) {
+      backdrop.classList.remove('open');
+      backdrop.setAttribute('aria-hidden', 'true');
+      if (!STATE.activeRecipeId) {
+        document.body.style.overflow = '';
+      }
+    }
+  }
+
+  function updateFeedbackPlaceholders(type) {
+    const config = feedbackPlaceholders[type] || feedbackPlaceholders.recipe;
+    const titleInput = document.getElementById('feedback-title-input');
+    const detailsInput = document.getElementById('feedback-details-input');
+    if (titleInput) titleInput.placeholder = config.title;
+    if (detailsInput) detailsInput.placeholder = config.details;
+  }
+
+  function getFeedbackFormData() {
+    const title = document.getElementById('feedback-title-input')?.value.trim();
+    const details = document.getElementById('feedback-details-input')?.value.trim();
+    const author = document.getElementById('feedback-author-input')?.value.trim();
+
+    if (!title || !details) {
+      showToast('Please provide a title and details for your feedback!', 'error');
+      if (!title) document.getElementById('feedback-title-input')?.focus();
+      else document.getElementById('feedback-details-input')?.focus();
+      return null;
+    }
+
+    const typeLabels = {
+      recipe: 'Recipe Suggestion',
+      correction: 'Recipe Correction',
+      pantry: 'Pantry Staple Addition',
+      general: 'Feedback / Idea'
+    };
+
+    const typeLabel = typeLabels[currentFeedbackType] || 'Feedback';
+
+    return { title, details, author, typeLabel };
+  }
+
+  function submitFeedbackViaGitHub() {
+    const data = getFeedbackFormData();
+    if (!data) return;
+
+    const issueTitle = `[${data.typeLabel}] ${data.title}`;
+    const issueBody = `### Feedback Type\n${data.typeLabel}\n\n### Suggestion / Details\n${data.details}\n\n### Submitted By\n${data.author || 'Anonymous'}\n\n---\n*Sent from Cookbook Web App*`;
+
+    const url = `https://github.com/shamsghani/cookbook/issues/new?title=${encodeURIComponent(issueTitle)}&body=${encodeURIComponent(issueBody)}`;
+
+    window.open(url, '_blank', 'noopener,noreferrer');
+    showToast('Opening GitHub to create your issue! 🚀', 'success');
+    closeFeedbackModal();
+    resetFeedbackForm();
+  }
+
+  function copyFeedbackToClipboard() {
+    const data = getFeedbackFormData();
+    if (!data) return;
+
+    const text = `[${data.typeLabel}] ${data.title}\n\n${data.details}\n\nSubmitted by: ${data.author || 'Anonymous'}`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Feedback copied to clipboard! 📋', 'success');
+        closeFeedbackModal();
+        resetFeedbackForm();
+      }).catch(() => {
+        showToast('Feedback formatted and ready!');
+      });
+    } else {
+      showToast('Feedback formatted and ready!');
+    }
+  }
+
+  function emailFeedback() {
+    const data = getFeedbackFormData();
+    if (!data) return;
+
+    const subject = `[Cookbook Feedback: ${data.typeLabel}] ${data.title}`;
+    const body = `Hi Shams,\n\nHere is my feedback for the Cookbook app:\n\nType: ${data.typeLabel}\nSubject: ${data.title}\n\nDetails:\n${data.details}\n\nFrom: ${data.author || 'A user'}`;
+
+    const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailtoUrl;
+    showToast('Opening email draft... ✉️', 'success');
+    closeFeedbackModal();
+    resetFeedbackForm();
+  }
+
+  function resetFeedbackForm() {
+    const form = document.getElementById('feedback-form');
+    if (form) form.reset();
+    currentFeedbackType = 'recipe';
+    updateFeedbackPlaceholders('recipe');
+  }
+
+  function initFeedbackControls() {
+    document.getElementById('btn-open-feedback')?.addEventListener('click', () => openFeedbackModal('recipe'));
+    document.getElementById('btn-hero-suggest')?.addEventListener('click', () => openFeedbackModal('recipe'));
+    document.getElementById('btn-footer-feedback')?.addEventListener('click', () => openFeedbackModal('recipe'));
+
+    document.getElementById('btn-feedback-close')?.addEventListener('click', closeFeedbackModal);
+    document.getElementById('feedback-modal-backdrop')?.addEventListener('click', (e) => {
+      if (e.target.id === 'feedback-modal-backdrop') closeFeedbackModal();
+    });
+
+    document.getElementById('feedback-type-chips')?.addEventListener('click', (e) => {
+      const btn = e.target.closest('.chip-btn');
+      if (!btn) return;
+      document.querySelectorAll('#feedback-type-chips .chip-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFeedbackType = btn.dataset.type;
+      updateFeedbackPlaceholders(currentFeedbackType);
+    });
+
+    document.getElementById('btn-feedback-github')?.addEventListener('click', submitFeedbackViaGitHub);
+    document.getElementById('btn-feedback-copy')?.addEventListener('click', copyFeedbackToClipboard);
+    document.getElementById('btn-feedback-email')?.addEventListener('click', emailFeedback);
   }
 
   // --------------------------------------------------------------------------
@@ -1530,6 +1704,7 @@
     initPantryControls();
     initShoppingControls();
     initModalControls();
+    initFeedbackControls();
 
     // Initial renders
     const navRecipesCount = document.getElementById('nav-recipes-count');

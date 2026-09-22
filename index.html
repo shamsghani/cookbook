@@ -42,6 +42,10 @@
 
       <!-- Header Actions -->
       <div class="header-actions">
+        <button class="feedback-nav-btn" id="btn-open-feedback" title="Suggest a recipe or share feedback">
+          <span class="feedback-btn-icon">💡</span>
+          <span class="feedback-btn-label">Feedback</span>
+        </button>
         <button class="action-icon-btn" id="btn-theme-toggle" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
           <span id="theme-icon">🌙</span>
         </button>
@@ -107,6 +111,12 @@
             <span class="stat-number">&lt; 20m</span>
             <span class="stat-label">Average Quick Cook</span>
           </div>
+        </div>
+        <div class="hero-actions">
+          <button class="btn-hero-suggest" id="btn-hero-suggest">
+            <span>💡</span>
+            <span>Suggest a Recipe or Share Feedback</span>
+          </button>
         </div>
       </div>
 
@@ -284,6 +294,28 @@
       </div>
     </section>
 
+    <!-- Application Footer -->
+    <footer class="app-footer">
+      <div class="footer-container">
+        <div class="footer-left">
+          <span class="footer-logo">🍳</span>
+          <div>
+            <div class="footer-title">Cookbook — High-Yield Meals &amp; Abroad Living</div>
+            <div class="footer-subtitle">Batch preps, dhaba comfort foods, and pantry essentials for solo living.</div>
+          </div>
+        </div>
+        <div class="footer-right">
+          <button class="btn-footer-feedback" id="btn-footer-feedback">
+            <span>💡</span>
+            <span>Suggest Recipe / Feedback</span>
+          </button>
+          <a href="https://github.com/shamsghani/cookbook/issues" target="_blank" rel="noopener noreferrer" class="btn-footer-issues">
+            <span>Issues &amp; Requests</span>
+          </a>
+        </div>
+      </div>
+    </footer>
+
   </main>
 
 
@@ -330,6 +362,74 @@
           <!-- Rendered dynamically -->
         </div>
 
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ====================================================================
+       SUGGEST RECIPE & FEEDBACK MODAL
+       ==================================================================== -->
+  <div class="feedback-modal-backdrop" id="feedback-modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="feedback-modal-container">
+      
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <button class="modal-close-btn" id="btn-feedback-close" title="Close (Esc)" aria-label="Close Modal">✕</button>
+          <h3 style="margin: 0; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span>💡</span> Suggest a Recipe / Feedback
+          </h3>
+        </div>
+      </div>
+
+      <div class="feedback-modal-body">
+        <p class="feedback-intro">
+          Have a favorite student or bachelor meal idea, a convenience pantry staple suggestion, or a recipe correction? Share it below!
+        </p>
+
+        <form id="feedback-form" class="feedback-form" onsubmit="return false;">
+          <!-- Category selector chips -->
+          <div class="feedback-type-group">
+            <label class="feedback-label-title">Feedback Type</label>
+            <div class="feedback-type-chips" id="feedback-type-chips">
+              <button type="button" class="chip-btn active" data-type="recipe">🍳 Recipe Suggestion</button>
+              <button type="button" class="chip-btn" data-type="correction">✏️ Recipe Correction</button>
+              <button type="button" class="chip-btn" data-type="pantry">🧺 Pantry Addition</button>
+              <button type="button" class="chip-btn" data-type="general">💬 General Feedback</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="feedback-title-input" class="form-label" id="feedback-title-label">Subject / Recipe Name *</label>
+            <input type="text" id="feedback-title-input" class="form-input" placeholder="e.g., Spicy Tuna Mayo Rice Bowl, Garlic Egg Noodles..." required>
+          </div>
+
+          <div class="form-group">
+            <label for="feedback-details-input" class="form-label" id="feedback-details-label">Ingredients, Instructions &amp; Notes *</label>
+            <textarea id="feedback-details-input" class="form-textarea" rows="5" placeholder="List key ingredients, preparation steps, or cooking tips..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="feedback-author-input" class="form-label">Your Name / GitHub Handle <span class="optional-tag">(Optional)</span></label>
+            <input type="text" id="feedback-author-input" class="form-input" placeholder="e.g., @yourhandle or anonymous">
+          </div>
+
+          <!-- Submission Options -->
+          <div class="feedback-actions">
+            <button type="button" class="btn-feedback-action primary" id="btn-feedback-github">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+              <span>Submit via GitHub Issue</span>
+            </button>
+            <button type="button" class="btn-feedback-action secondary" id="btn-feedback-copy">
+              📋 Copy to Clipboard
+            </button>
+            <button type="button" class="btn-feedback-action secondary" id="btn-feedback-email">
+              ✉️ Email Feedback
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
