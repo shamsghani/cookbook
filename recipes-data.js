@@ -2648,3 +2648,37 @@ const ALL_INGREDIENTS = [
     "emoji": "🌶️"
   }
 ];
+
+// Helper functions
+function getRecipeById(id) {
+  return RECIPES.find(r => r.id === id) || null;
+}
+
+function getPantryItemById(id) {
+  return PANTRY_ITEMS.find(p => p.id === id) || null;
+}
+
+// Universal export: attaches to window.CookbookData in browsers and module.exports in Node/bundlers
+if (typeof window !== 'undefined') {
+  window.CookbookData = {
+    PANTRY_ITEMS,
+    RECIPES,
+    ALL_INGREDIENTS,
+    getRecipeById,
+    getPantryItemById
+  };
+  window.PANTRY_ITEMS = PANTRY_ITEMS;
+  window.RECIPES = RECIPES;
+  window.ALL_INGREDIENTS = ALL_INGREDIENTS;
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    PANTRY_ITEMS,
+    RECIPES,
+    ALL_INGREDIENTS,
+    getRecipeById,
+    getPantryItemById
+  };
+}
+

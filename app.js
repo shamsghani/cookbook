@@ -6,8 +6,20 @@
 (function () {
   'use strict';
 
-  // Fallback / Data loader from window.CookbookData or module export
-  const Data = window.CookbookData || {};
+  // Resilient Data loader: loads from window.CookbookData, window globals, or in-scope globals
+  const getGlobalData = () => {
+    if (typeof window !== 'undefined' && window.CookbookData) {
+      return window.CookbookData;
+    }
+    const win = typeof window !== 'undefined' ? window : {};
+    return {
+      PANTRY_ITEMS: win.PANTRY_ITEMS || (typeof PANTRY_ITEMS !== 'undefined' ? PANTRY_ITEMS : []),
+      RECIPES: win.RECIPES || (typeof RECIPES !== 'undefined' ? RECIPES : []),
+      ALL_INGREDIENTS: win.ALL_INGREDIENTS || (typeof ALL_INGREDIENTS !== 'undefined' ? ALL_INGREDIENTS : [])
+    };
+  };
+
+  const Data = getGlobalData();
   const { PANTRY_ITEMS = [], RECIPES = [], ALL_INGREDIENTS = [] } = Data;
 
   // --------------------------------------------------------------------------
