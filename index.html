@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cookbook — Abroad Living Pantry & High-Yield Recipes</title>
   <meta name="description" content="A practical cookbook and pantry checklist engineered for living abroad alone. Features high-yield batch prep, dhaba-style curries, fast pizzas, interactive stepwise cooking mode, and ingredient matching.">
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍳</text></svg>">
 </head>
 <body>
@@ -215,6 +215,14 @@
         </div>
       </div>
 
+      <!-- Add Custom Pantry Item Form -->
+      <form class="pantry-add-form" id="pantry-add-form">
+        <input type="text" id="pantry-item-input" class="pantry-input" placeholder="Add custom pantry staple (e.g., Naan, Soy Sauce, Olive Oil, Eggs)..." required>
+        <button type="submit" class="btn-add-pantry-item" id="btn-add-pantry-item">
+          <span>➕</span> Add Custom Item
+        </button>
+      </form>
+
       <!-- Filter bar for pantry -->
       <div class="controls-bar" style="margin-bottom: 1.25rem;">
         <div class="search-box-wrapper" style="min-width: 220px;">
@@ -242,14 +250,21 @@
       <div class="shopping-list-container">
         <!-- Main Items Panel -->
         <div class="shopping-main-panel">
-          <h2 class="panel-title" style="margin-bottom: 1rem;">
-            <span>🛒</span> Grocery Shopping List
-          </h2>
+          <div class="shopping-main-header">
+            <h2 class="panel-title" style="margin-bottom: 0;">
+              <span>🛒</span> Grocery Shopping List
+            </h2>
+            <button class="btn-sm-action" id="btn-select-all-shopping-top" type="button" style="display: none;">
+              ✅ Select All
+            </button>
+          </div>
 
           <!-- Add Item Form -->
           <form class="shopping-add-form" id="shopping-add-form">
-            <input type="text" id="shopping-item-input" class="shopping-input" placeholder="Add custom item (e.g., eggs, garlic, foil, milk)..." required>
-            <button type="submit" class="btn-add-item">+ Add</button>
+            <input type="text" id="shopping-item-input" class="shopping-input" placeholder="Add custom item (e.g., naan, eggs, garlic, foil, milk)..." required>
+            <button type="submit" class="btn-add-item" id="btn-add-shopping-item">
+              <span>➕</span> Add Custom Item
+            </button>
           </form>
 
           <!-- Shopping Items List -->
@@ -276,16 +291,19 @@
             </div>
 
             <div class="summary-actions">
-              <button class="btn-summary-action primary" id="btn-copy-shopping-list">
+              <button class="btn-summary-action accent" id="btn-select-all-shopping" type="button">
+                ✅ Select All Items
+              </button>
+              <button class="btn-summary-action" id="btn-clear-checked-shopping" type="button" title="Move checked items to your Pantry stock and clear them from cart">
+                🧺 Clear Checked &amp; Stock in Pantry
+              </button>
+              <button class="btn-summary-action primary" id="btn-copy-shopping-list" type="button">
                 📋 Copy for WhatsApp / Notes
               </button>
-              <button class="btn-summary-action" id="btn-clear-checked-shopping">
-                🧹 Clear Checked Items
-              </button>
-              <button class="btn-summary-action" id="btn-clear-all-shopping">
+              <button class="btn-summary-action" id="btn-clear-all-shopping" type="button">
                 🗑️ Clear Whole List
               </button>
-              <button class="btn-summary-action" id="btn-print-shopping">
+              <button class="btn-summary-action" id="btn-print-shopping" type="button">
                 🖨️ Print Shopping List
               </button>
             </div>
@@ -439,7 +457,7 @@
   <div class="toast-container" id="toast-container"></div>
 
   <!-- Load Data and App Logic -->
-  <script src="recipes-data.js?v=2"></script>
-  <script src="app.js?v=2"></script>
+  <script src="recipes-data.js?v=3"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

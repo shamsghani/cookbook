@@ -979,6 +979,49 @@ img {
   gap: 0.6rem;
 }
 
+.pantry-add-form {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.pantry-input {
+  flex: 1;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  transition: all var(--transition-fast);
+}
+
+.pantry-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.btn-add-pantry-item {
+  padding: 0 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: var(--primary);
+  color: #000;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn-add-pantry-item:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
 .pantry-category-group {
   margin-bottom: 2rem;
 }
@@ -1120,6 +1163,38 @@ img {
   border-color: var(--primary);
 }
 
+.pantry-card-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+.btn-delete-custom-pantry {
+  padding: 0.25rem 0.45rem;
+  font-size: 0.74rem;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  line-height: 1;
+}
+
+.btn-delete-custom-pantry:hover {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.pantry-recipe-tag.custom-badge {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--primary);
+  border-color: rgba(245, 158, 11, 0.3);
+  font-weight: 600;
+}
+
 /* --------------------------------------------------------------------------
    Shopping List Section
    -------------------------------------------------------------------------- */
@@ -1141,6 +1216,13 @@ img {
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
   padding: 1.75rem;
+}
+
+.shopping-main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
 }
 
 .shopping-add-form {
@@ -1366,6 +1448,18 @@ img {
 
 .btn-summary-action.primary:hover {
   background: var(--primary-hover);
+}
+
+.btn-summary-action.accent {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: var(--accent-green);
+  font-weight: 700;
+}
+
+.btn-summary-action.accent:hover {
+  background: rgba(16, 185, 129, 0.22);
+  border-color: var(--accent-green);
 }
 
 /* --------------------------------------------------------------------------

@@ -40,6 +40,7 @@
       'chicken', 'yogurt', 'onions', 'cooking_oil', 'basmati_rice', 'mayonnaise'
     ])),
     shoppingList: loadStorage('cookbook_shopping', []),
+    customPantryItems: loadStorage('cookbook_custom_pantry', []),
     favorites: new Set(loadStorage('cookbook_favorites', [])),
     theme: loadStorage('cookbook_theme', 'dark'),
     checkedIngredients: new Set(loadStorage('cookbook_checked_ing', [])),
@@ -561,8 +562,117 @@
   }
 
   // --------------------------------------------------------------------------
-  // Section 3: Abroad Living Pantry Checklist (25 Essentials)
+  // Section 3: Abroad Living Pantry Checklist (25 Essentials + Custom Staples)
   // --------------------------------------------------------------------------
+  function getAllPantryItems() {
+    return [...PANTRY_ITEMS, ...(STATE.customPantryItems || [])];
+  }
+
+  function cleanItemNameForMatch(rawName) {
+    if (!rawName) return '';
+    return rawName
+      .trim()
+      .toLowerCase()
+      // Remove leading measurement quantities like "2 cups ", "500 g ", "1 tbsp ", "1/2 cup "
+      .replace(/^[\d\s\/\.\-\u00BC-\u00BE\u2150-\u215E]+(cups?|tbsp|tsp|g|kg|ml|l|cans?|pkts?|packets?|slices?|pieces?|cloves?|bunch|pinch|medium|large|small)?\s+(of\s+)?/i, '')
+      .trim();
+  }
+
+  function matchOrAddPantryItem(rawName) {
+    if (!rawName || !rawName.trim()) return null;
+    const clean = rawName.trim();
+    const lower = clean.toLowerCase();
+    const stripped = cleanItemNameForMatch(clean);
+
+    // 1. Check static 25 PANTRY_ITEMS
+    let matchedItem = PANTRY_ITEMS.find(p => {
+      const pShort = p.shortName.toLowerCase();
+      const pName = p.name.toLowerCase();
+      const pId = p.id.toLowerCase();
+      return pShort === lower || pName === lower || pId === lower ||
+             (stripped && (pShort === stripped || pName === stripped));
+    });
+
+    // Substring match for static pantry items (if word length >= 4)
+    if (!matchedItem && stripped.length >= 4) {
+      matchedItem = PANTRY_ITEMS.find(p => {
+        const pShort = p.shortName.toLowerCase();
+        return pShort.includes(stripped) || stripped.includes(pShort);
+      });
+    }
+
+    if (matchedItem) {
+      STATE.stockedPantry.add(matchedItem.id);
+      return { item: matchedItem, isNew: false, isCustom: false };
+    }
+
+    // 2. Check existing custom items in STATE.customPantryItems
+    if (!STATE.customPantryItems) {
+      STATE.customPantryItems = [];
+    }
+
+    let customItem = STATE.customPantryItems.find(c => {
+      const cShort = c.shortName.toLowerCase();
+      const cName = c.name.toLowerCase();
+      return cShort === lower || cName === lower ||
+             (stripped && (cShort === stripped || cName === stripped));
+    });
+
+    if (customItem) {
+      STATE.stockedPantry.add(customItem.id);
+      return { item: customItem, isNew: false, isCustom: true };
+    }
+
+    // 3. Brand-new custom pantry item
+    const rawClean = clean.replace(/^[\d\s\/\.\-\u00BC-\u00BE\u2150-\u215E]+(cups?|tbsp|tsp|g|kg|ml|l|cans?|pkts?|packets?|slices?|pieces?|cloves?|bunch|pinch|medium|large|small)?\s+(of\s+)?/i, '').trim();
+    const formattedTitle = (rawClean || clean)
+      .toLowerCase()
+      .split(' ')
+      .filter(Boolean)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+    const newCustom = {
+      id: 'custom_pantry_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+      name: formattedTitle,
+      shortName: formattedTitle,
+      category: 'Custom & Extra Groceries',
+      categoryEmoji: '🛍️',
+      description: 'Custom staple added to your kitchen pantry',
+      emoji: '✨',
+      usedIn: [],
+      isCustom: true
+    };
+
+    STATE.customPantryItems.push(newCustom);
+    STATE.stockedPantry.add(newCustom.id);
+    return { item: newCustom, isNew: true, isCustom: true };
+  }
+
+  function addCustomPantryItem(name) {
+    if (!name || !name.trim()) return;
+    const res = matchOrAddPantryItem(name);
+    if (res) {
+      saveStorage('cookbook_pantry', Array.from(STATE.stockedPantry));
+      saveStorage('cookbook_custom_pantry', STATE.customPantryItems);
+      renderPantry();
+      if (res.isNew) {
+        showToast(`Added "${res.item.shortName}" to your Pantry! 🧺`, 'success');
+      } else {
+        showToast(`"${res.item.shortName}" is stocked in your Pantry! 🧺`, 'success');
+      }
+    }
+  }
+
+  function deleteCustomPantryItem(id) {
+    const item = (STATE.customPantryItems || []).find(i => i.id === id);
+    STATE.customPantryItems = (STATE.customPantryItems || []).filter(i => i.id !== id);
+    STATE.stockedPantry.delete(id);
+    saveStorage('cookbook_pantry', Array.from(STATE.stockedPantry));
+    saveStorage('cookbook_custom_pantry', STATE.customPantryItems);
+    renderPantry();
+    showToast(`Removed "${item ? item.shortName : 'item'}" from pantry`);
+  }
+
   function renderPantry() {
     const container = document.getElementById('pantry-categories-container');
     const progressText = document.getElementById('pantry-progress-text');
@@ -570,10 +680,10 @@
     const navPantryCount = document.getElementById('nav-pantry-count');
     if (!container) return;
 
-    // Update Progress Stats
-    const totalPantry = PANTRY_ITEMS.length;
-    const stockedCount = STATE.stockedPantry.size;
-    const pct = Math.round((stockedCount / totalPantry) * 100);
+    const allPantry = getAllPantryItems();
+    const totalPantry = allPantry.length;
+    const stockedCount = allPantry.filter(i => STATE.stockedPantry.has(i.id)).length;
+    const pct = totalPantry > 0 ? Math.round((stockedCount / totalPantry) * 100) : 0;
     
     if (progressText) {
       progressText.textContent = `${stockedCount} / ${totalPantry} Stocked (${pct}%)`;
@@ -585,29 +695,39 @@
       navPantryCount.textContent = `${stockedCount}/${totalPantry}`;
     }
 
+    // Dynamic Filter Chip Counts
+    const chipAll = document.querySelector('#pantry-filter-chips [data-pfilter="all"]');
+    const chipNeeded = document.querySelector('#pantry-filter-chips [data-pfilter="needed"]');
+    const chipStocked = document.querySelector('#pantry-filter-chips [data-pfilter="stocked"]');
+    if (chipAll) chipAll.textContent = `All Items (${totalPantry})`;
+    if (chipNeeded) chipNeeded.textContent = `Need to Restock (${totalPantry - stockedCount})`;
+    if (chipStocked) chipStocked.textContent = `Stocked in Kitchen (${stockedCount})`;
+
     // Filter items
     const searchTerm = STATE.pantrySearch.toLowerCase().trim();
     const filter = STATE.pantryFilter; // 'all' | 'needed' | 'stocked'
 
     // Group by category
     const categoriesMap = new Map();
-    PANTRY_ITEMS.forEach(item => {
+    allPantry.forEach(item => {
       const isStocked = STATE.stockedPantry.has(item.id);
 
       if (filter === 'needed' && isStocked) return;
       if (filter === 'stocked' && !isStocked) return;
 
       if (searchTerm) {
-        const inName = item.name.toLowerCase().includes(searchTerm);
-        const inDesc = item.description.toLowerCase().includes(searchTerm);
-        const inCat = item.category.toLowerCase().includes(searchTerm);
-        if (!inName && !inDesc && !inCat) return;
+        const inName = (item.name || '').toLowerCase().includes(searchTerm);
+        const inShort = (item.shortName || '').toLowerCase().includes(searchTerm);
+        const inDesc = (item.description || '').toLowerCase().includes(searchTerm);
+        const inCat = (item.category || '').toLowerCase().includes(searchTerm);
+        if (!inName && !inShort && !inDesc && !inCat) return;
       }
 
-      if (!categoriesMap.has(item.category)) {
-        categoriesMap.set(item.category, []);
+      const catName = item.category || 'Custom & Extra Groceries';
+      if (!categoriesMap.has(catName)) {
+        categoriesMap.set(catName, []);
       }
-      categoriesMap.get(item.category).push(item);
+      categoriesMap.get(catName).push(item);
     });
 
     if (categoriesMap.size === 0) {
@@ -622,7 +742,7 @@
     }
 
     container.innerHTML = Array.from(categoriesMap.entries()).map(([category, items]) => {
-      const catEmoji = items[0] ? items[0].categoryEmoji : '📦';
+      const catEmoji = items[0] ? (items[0].categoryEmoji || '📦') : '📦';
       return `
         <div class="pantry-category-group">
           <div class="category-group-header">
@@ -636,7 +756,7 @@
           <div class="pantry-items-grid">
             ${items.map(item => {
               const stocked = STATE.stockedPantry.has(item.id);
-              const relatedRecipes = item.usedIn.map(rid => {
+              const relatedRecipes = (item.usedIn || []).map(rid => {
                 const r = RECIPES.find(rec => rec.id === rid);
                 return r ? r.shortTitle : rid;
               });
@@ -646,17 +766,23 @@
                   <div class="pantry-checkbox">✓</div>
                   <div class="pantry-item-body">
                     <div class="pantry-item-title-row">
-                      <h4 class="pantry-item-title">${item.emoji} ${item.shortName}</h4>
-                      <button class="btn-add-pantry-to-cart" data-cart-item="${item.shortName}" title="Add item to shopping list">
-                        + Cart
-                      </button>
-                    </div>
-                    <p class="pantry-item-desc">${item.description}</p>
-                    ${relatedRecipes.length > 0 ? `
-                      <div class="pantry-item-tags">
-                        ${relatedRecipes.map(r => `<span class="pantry-recipe-tag">Used in: ${r}</span>`).join('')}
+                      <h4 class="pantry-item-title">${item.emoji || '✨'} ${item.shortName || item.name}</h4>
+                      <div class="pantry-card-btn-group">
+                        <button class="btn-add-pantry-to-cart" data-cart-item="${item.shortName || item.name}" title="Add item to shopping list">
+                          + Cart
+                        </button>
+                        ${item.isCustom ? `
+                          <button class="btn-delete-custom-pantry" data-custom-id="${item.id}" title="Remove custom item from pantry">
+                            🗑️
+                          </button>
+                        ` : ''}
                       </div>
-                    ` : ''}
+                    </div>
+                    <p class="pantry-item-desc">${item.description || 'Custom grocery staple'}</p>
+                    <div class="pantry-item-tags">
+                      ${item.isCustom ? `<span class="pantry-recipe-tag custom-badge">Custom Staple</span>` : ''}
+                      ${relatedRecipes.map(r => `<span class="pantry-recipe-tag">Used in: ${r}</span>`).join('')}
+                    </div>
                   </div>
                 </div>
               `;
@@ -669,8 +795,8 @@
     // Toggle stock status when clicking card
     container.querySelectorAll('.pantry-item-card').forEach(card => {
       card.addEventListener('click', (e) => {
-        // Prevent toggle if clicking "+ Cart" button
-        if (e.target.closest('.btn-add-pantry-to-cart')) return;
+        // Prevent toggle if clicking "+ Cart" button or delete button
+        if (e.target.closest('.btn-add-pantry-to-cart') || e.target.closest('.btn-delete-custom-pantry')) return;
         
         const id = card.dataset.pantryId;
         if (STATE.stockedPantry.has(id)) {
@@ -680,6 +806,15 @@
         }
         saveStorage('cookbook_pantry', Array.from(STATE.stockedPantry));
         renderPantry();
+      });
+    });
+
+    // Delete custom pantry item
+    container.querySelectorAll('.btn-delete-custom-pantry').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.dataset.customId;
+        deleteCustomPantryItem(id);
       });
     });
 
@@ -694,6 +829,16 @@
   }
 
   function initPantryControls() {
+    const pForm = document.getElementById('pantry-add-form');
+    const pInput = document.getElementById('pantry-item-input');
+    if (pForm && pInput) {
+      pForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        addCustomPantryItem(pInput.value);
+        pInput.value = '';
+      });
+    }
+
     const searchInput = document.getElementById('pantry-search-input');
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
@@ -717,22 +862,24 @@
     const btnAddMissing = document.getElementById('btn-add-missing-pantry-to-cart');
     if (btnAddMissing) {
       btnAddMissing.addEventListener('click', () => {
-        const missing = PANTRY_ITEMS.filter(item => !STATE.stockedPantry.has(item.id));
+        const allPantry = getAllPantryItems();
+        const missing = allPantry.filter(item => !STATE.stockedPantry.has(item.id));
         if (missing.length === 0) {
-          showToast('All 25 pantry essentials are already stocked in your kitchen! 🎉', 'success');
+          showToast('All pantry essentials are already stocked in your kitchen! 🎉', 'success');
           return;
         }
 
         let addedCount = 0;
         missing.forEach(item => {
-          const exists = STATE.shoppingList.some(s => s.name.toLowerCase() === item.shortName.toLowerCase());
+          const nameToMatch = item.shortName || item.name;
+          const exists = STATE.shoppingList.some(s => s.name.toLowerCase() === nameToMatch.toLowerCase());
           if (!exists) {
             STATE.shoppingList.push({
               id: 'shop_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-              name: item.shortName,
-              category: item.category,
+              name: nameToMatch,
+              category: item.category || 'General',
               checked: false,
-              source: 'Pantry Checklist'
+              source: item.isCustom ? 'Custom Pantry' : 'Pantry Checklist'
             });
             addedCount++;
           }
@@ -740,17 +887,18 @@
 
         saveStorage('cookbook_shopping', STATE.shoppingList);
         updateCartBadge();
-        showToast(`Added ${addedCount} missing pantry items to your shopping list! 🛒`, 'success');
+        showToast(`Added ${addedCount} missing pantry item${addedCount > 1 ? 's' : ''} to your shopping list! 🛒`, 'success');
       });
     }
 
     const btnMarkAll = document.getElementById('btn-mark-all-pantry');
     if (btnMarkAll) {
       btnMarkAll.addEventListener('click', () => {
-        PANTRY_ITEMS.forEach(i => STATE.stockedPantry.add(i.id));
+        const allPantry = getAllPantryItems();
+        allPantry.forEach(i => STATE.stockedPantry.add(i.id));
         saveStorage('cookbook_pantry', Array.from(STATE.stockedPantry));
         renderPantry();
-        showToast('Marked all 25 pantry items as stocked!', 'success');
+        showToast(`Marked all ${allPantry.length} pantry items as stocked!`, 'success');
       });
     }
 
@@ -800,10 +948,23 @@
     const total = STATE.shoppingList.length;
     const checkedCount = STATE.shoppingList.filter(i => i.checked).length;
     const remainingCount = total - checkedCount;
+    const allChecked = total > 0 && checkedCount === total;
 
     if (totalCountEl) totalCountEl.textContent = total;
     if (checkedCountEl) checkedCountEl.textContent = checkedCount;
     if (remainingCountEl) remainingCountEl.textContent = remainingCount;
+
+    // Update Select All buttons
+    const btnSelectAll = document.getElementById('btn-select-all-shopping');
+    const btnSelectAllTop = document.getElementById('btn-select-all-shopping-top');
+    if (btnSelectAll) {
+      btnSelectAll.innerHTML = allChecked ? '⬜ Deselect All Items' : '✅ Select All Items';
+      btnSelectAll.disabled = total === 0;
+    }
+    if (btnSelectAllTop) {
+      btnSelectAllTop.innerHTML = allChecked ? '⬜ Deselect All' : '✅ Select All';
+      btnSelectAllTop.style.display = total > 0 ? 'inline-flex' : 'none';
+    }
 
     if (total === 0) {
       listContainer.innerHTML = `
@@ -930,6 +1091,27 @@
       });
     }
 
+    // Toggle Select All
+    const toggleSelectAll = () => {
+      if (STATE.shoppingList.length === 0) return;
+      const allChecked = STATE.shoppingList.every(i => i.checked);
+      const newStatus = !allChecked;
+      STATE.shoppingList.forEach(i => { i.checked = newStatus; });
+      saveStorage('cookbook_shopping', STATE.shoppingList);
+      renderShoppingList();
+      showToast(newStatus ? 'Selected all shopping items ✅' : 'Deselected all shopping items');
+    };
+
+    const btnSelectAll = document.getElementById('btn-select-all-shopping');
+    if (btnSelectAll) {
+      btnSelectAll.addEventListener('click', toggleSelectAll);
+    }
+
+    const btnSelectAllTop = document.getElementById('btn-select-all-shopping-top');
+    if (btnSelectAllTop) {
+      btnSelectAllTop.addEventListener('click', toggleSelectAll);
+    }
+
     // Copy to clipboard formatted for WhatsApp / Notes
     const btnCopy = document.getElementById('btn-copy-shopping-list');
     if (btnCopy) {
@@ -966,16 +1148,41 @@
       window.prompt('Copy your shopping list:', text);
     }
 
-    // Clear Checked
+    // Clear Checked and Stock in Pantry
     const btnClearChecked = document.getElementById('btn-clear-checked-shopping');
     if (btnClearChecked) {
       btnClearChecked.addEventListener('click', () => {
-        const initial = STATE.shoppingList.length;
+        const checkedItems = STATE.shoppingList.filter(i => i.checked);
+        if (checkedItems.length === 0) {
+          showToast('No checked items to clear!');
+          return;
+        }
+
+        let newlyCreated = 0;
+        let stockedCount = 0;
+
+        checkedItems.forEach(item => {
+          const res = matchOrAddPantryItem(item.name);
+          if (res) {
+            stockedCount++;
+            if (res.isNew) newlyCreated++;
+          }
+        });
+
         STATE.shoppingList = STATE.shoppingList.filter(i => !i.checked);
-        const removed = initial - STATE.shoppingList.length;
+
         saveStorage('cookbook_shopping', STATE.shoppingList);
+        saveStorage('cookbook_pantry', Array.from(STATE.stockedPantry));
+        saveStorage('cookbook_custom_pantry', STATE.customPantryItems || []);
+
         renderShoppingList();
-        showToast(`Cleared ${removed} checked items`);
+        renderPantry();
+
+        let msg = `Stocked ${stockedCount} purchased item${stockedCount > 1 ? 's' : ''} in your Pantry! 🧺`;
+        if (newlyCreated > 0) {
+          msg += ` (${newlyCreated} added as custom staple${newlyCreated > 1 ? 's' : ''})`;
+        }
+        showToast(msg, 'success');
       });
     }
 
