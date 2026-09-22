@@ -8,15 +8,17 @@ Live Repo: [https://github.com/shamsghani/cookbook](https://github.com/shamsghan
 
 ## 🌟 Key Features
 
-### 1. 🍳 8 Core High-Yield Recipes
+### 1. 🍳 10 Core High-Yield Recipes
 - **Default Grilled Chicken (Batch-Prep Edition)**: High-yield oven method with midway pan drainage that keeps chicken juicy and seared rather than boiled. Serves as the foundation protein for 3 other meals throughout the week.
 - **Miscellaneous Rice (TM)**: Adaptable savory basmati rice base with gentle aromatics, stock cube, and a perfect low-flame steam (*dum*) finish.
+- **Green Chilli Rice**: Vibrant basmati rice infused with sautéed green chillies, whisked yogurt, and chicken stock for a zesty, creamy-tempered kick.
 - **Easy Cheesy Pasta with Crispy Chicken**: Creamy pink/blush sauce emulsified with starchy pasta water, heavy cream, and cheese, crowned with air-fried golden chicken tenders.
 - **Easy French Bread Pizza (TM)**: Crusty split baguette/roll with seasoned tomato sauce, diced veggies, grilled chicken or seekh kebabs, cheese, and signature mayonnaise zigzag.
 - **Quick Seekh Kabab Karahi (TM)**: 15-minute dhaba-style wok curry transforming pre-cooked or frozen seekh kebabs with canned tomatoes into a rich gravy with distinct oil separation (*rogaan*).
-- **Easy Chicken Handi (Creamy Dhaba Style)**: White-style creamy stovetop handi with seared chicken cubes, cream reduction, crushed chillies, and optional melted cheese velvet finish.
+- **Easy Chicken Handi (Creamy Dhaba Style)**: White-style creamy stovetop handi with seared chicken cubes, cream reduction, crushed chillies, melted cheese finish, and fresh coriander-ginger garnish.
 - **Crispy & Tangy Grilled Chicken Sandwich**: Classic deli stack engineered with a double mayonnaise-lettuce barrier to keep toasted bread crisp against spiced meat and pickles.
-- **Easy Loaded Upgrade Pizza**: The ultimate cheat code—turning frozen cheese pizza or bare crust into a bakery-style pizza loaded with kebabs/chicken, peppers, and garlic-mayo drizzle.
+- **Pizza Upgrade**: The ultimate cheat code—turning a basic frozen cheese pizza into a loaded bakery-style pie with kebabs/chicken, peppers, an extra cheese blanket, and garlic-mayo drizzle.
+- **Easy Pizza**: Quick personal pizza built from a bare par-baked crust with pizza sauce, baseline cheese foundation, protein, veggies, and blistered cheese blanket.
 
 ### 2. 👨‍🍳 Two Viewing Modes
 - **📖 Full Recipe (Detailed Mode)**:

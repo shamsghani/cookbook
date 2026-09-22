@@ -41,7 +41,9 @@ const PANTRY_ITEMS = [
       "french-bread-pizza",
       "seekh-kabab-karahi",
       "chicken-handi",
-      "loaded-pizza"
+      "pizza-upgrade",
+      "easy-pizza",
+      "green-chilli-rice"
     ]
   },
   {
@@ -54,7 +56,8 @@ const PANTRY_ITEMS = [
     "emoji": "🫑",
     "usedIn": [
       "french-bread-pizza",
-      "loaded-pizza"
+      "pizza-upgrade",
+      "easy-pizza"
     ]
   },
   {
@@ -69,7 +72,8 @@ const PANTRY_ITEMS = [
       "cheesy-pasta",
       "french-bread-pizza",
       "chicken-handi",
-      "loaded-pizza"
+      "pizza-upgrade",
+      "easy-pizza"
     ]
   },
   {
@@ -83,7 +87,8 @@ const PANTRY_ITEMS = [
     "usedIn": [
       "french-bread-pizza",
       "seekh-kabab-karahi",
-      "loaded-pizza"
+      "pizza-upgrade",
+      "easy-pizza"
     ]
   },
   {
@@ -139,7 +144,7 @@ const PANTRY_ITEMS = [
     "usedIn": [
       "cheesy-pasta",
       "french-bread-pizza",
-      "loaded-pizza"
+      "easy-pizza"
     ]
   },
   {
@@ -151,7 +156,8 @@ const PANTRY_ITEMS = [
     "description": "Long-grain fragrant rice. The base for Miscellaneous Rice and all desi curries.",
     "emoji": "🍚",
     "usedIn": [
-      "misc-rice"
+      "misc-rice",
+      "green-chilli-rice"
     ]
   },
   {
@@ -163,7 +169,8 @@ const PANTRY_ITEMS = [
     "description": "Lactic acid tenderizer for Default Grilled Chicken marinade and quick raita.",
     "emoji": "🥣",
     "usedIn": [
-      "grilled-chicken"
+      "grilled-chicken",
+      "green-chilli-rice"
     ]
   },
   {
@@ -277,7 +284,8 @@ const PANTRY_ITEMS = [
     "usedIn": [
       "misc-rice",
       "seekh-kabab-karahi",
-      "chicken-handi"
+      "chicken-handi",
+      "green-chilli-rice"
     ]
   },
   {
@@ -291,7 +299,8 @@ const PANTRY_ITEMS = [
     "usedIn": [
       "french-bread-pizza",
       "chicken-sandwich",
-      "loaded-pizza"
+      "pizza-upgrade",
+      "easy-pizza"
     ]
   },
   {
@@ -487,10 +496,12 @@ const RECIPES = [
       }
     ],
     "combinesWith": [
+      "misc-rice",
+      "green-chilli-rice",
       "french-bread-pizza",
       "chicken-sandwich",
-      "loaded-pizza",
-      "misc-rice"
+      "pizza-upgrade",
+      "easy-pizza"
     ]
   },
   {
@@ -596,11 +607,11 @@ const RECIPES = [
         "pantryKey": null
       },
       {
-        "name": "Green chilli or red pepper flakes",
-        "amount": 1,
-        "unit": "item",
-        "notes": "1 slit green chilli or ½ tsp crushed red pepper (optional)",
-        "category": "Produce",
+        "name": "Crushed red pepper flakes",
+        "amount": 0.5,
+        "unit": "tsp",
+        "notes": "for dry heat (optional)",
+        "category": "Spices & Seasoning",
         "optional": true,
         "pantryKey": null
       },
@@ -641,7 +652,7 @@ const RECIPES = [
         "step": 3,
         "title": "Build the Broth",
         "phase": "Broth Boil",
-        "text": "Pour in 2 ¼ cups of water. Add 1 level tsp of salt, black pepper, and the crumbled ½ chicken stock cube (plus dried chillies/garlic powder if using). Stir gently to dissolve the cube and bring the broth up to a rolling boil over high heat."
+        "text": "Pour in 2 ¼ cups of water. Add 1 level tsp of salt, black pepper, and the crumbled ½ chicken stock cube (plus red chilli flakes/garlic powder if using). Stir gently to dissolve the cube and bring the broth up to a rolling boil over high heat."
       },
       {
         "step": 4,
@@ -672,12 +683,12 @@ const RECIPES = [
         "step": 1,
         "title": "Start Aromatics",
         "text": "Heat 2 tbsp oil in a medium pot over medium heat. Add the sliced onion (and whole spices/fresh garlic if using). Sauté until the onions turn barely golden brown.",
-        "timer": 3
+        "timer": null
       },
       {
         "step": 2,
         "title": "Build the Broth",
-        "text": "Pour in 2 ¼ cups of water. Add 1 level tsp salt, black pepper, and crumbled ½ chicken stock cube. Increase the heat to high to bring to a rolling boil.",
+        "text": "Pour in 2 ¼ cups of water. Add 1 level tsp salt, black pepper, and crumbled ½ chicken stock cube (plus red chilli flakes if using). Increase the heat to high to bring to a rolling boil.",
         "timer": null
       },
       {
@@ -696,7 +707,7 @@ const RECIPES = [
         "step": 5,
         "title": "Steam Finish (Dum)",
         "text": "When visible surface water is gone and small steam vents form, drop heat to the lowest possible setting. Cover tightly and let steam for 5–7 minutes (or turn flame off and let sit covered for 10 minutes). Fluff with a fork before serving.",
-        "timer": 7
+        "timer": 6
       }
     ],
     "simultaneousOperations": "While the broth comes to a boil in Step 2: Wash the 1 cup of basmati rice in a separate bowl until the water runs clear, then submerge it in fresh water to soak until the broth boils.",
@@ -717,10 +728,253 @@ const RECIPES = [
     ]
   },
   {
+    "id": "green-chilli-rice",
+    "title": "Green Chilli Rice",
+    "shortTitle": "Green Chilli Rice",
+    "number": 3,
+    "emoji": "🍚",
+    "category": "Grains & Sides",
+    "tagline": "Fragrant basmati rice infused with sautéed green chillies, whisked yogurt, and savory stock.",
+    "description": "A vibrant, zesty basmati rice infused with fresh green chillies sautéed directly with aromatics, enriched with whisked plain yogurt, and steamed to fluffy perfection under low steam (dum).",
+    "prepTime": "10 mins",
+    "cookTime": "18 mins",
+    "totalTime": "28 mins",
+    "servings": "2–3 servings",
+    "servingsBase": 2,
+    "difficulty": "Easy",
+    "cookingMethod": "Stovetop",
+    "tags": [
+      "Comfort Food",
+      "Grains",
+      "Stovetop",
+      "Spicy",
+      "Quick Dinner"
+    ],
+    "equipment": [
+      "Medium pot or saucepan with tight-fitting lid",
+      "Fine-mesh colander or strainer",
+      "Measuring cups and spoons",
+      "Fork for fluffing"
+    ],
+    "ingredients": [
+      {
+        "name": "Basmati rice",
+        "amount": 1,
+        "unit": "cup",
+        "notes": "standard measuring cup, rinsed & soaked",
+        "category": "Grains",
+        "optional": false,
+        "pantryKey": "basmati_rice"
+      },
+      {
+        "name": "Cooking oil or ghee",
+        "amount": 2,
+        "unit": "tbsp",
+        "notes": "neutral cooking oil or flavorful ghee",
+        "category": "Oils & Fats",
+        "optional": false,
+        "pantryKey": "cooking_oil"
+      },
+      {
+        "name": "Onion",
+        "amount": 0.5,
+        "unit": "small",
+        "notes": "or ¼ large onion, thinly sliced",
+        "category": "Produce",
+        "optional": false,
+        "pantryKey": "onions"
+      },
+      {
+        "name": "Fresh green chillies",
+        "amount": 2.5,
+        "unit": "items",
+        "notes": "2–3 green chillies, slit lengthwise or sliced into coins",
+        "category": "Produce",
+        "optional": false,
+        "pantryKey": null
+      },
+      {
+        "name": "Plain yogurt (dahi)",
+        "amount": 0.25,
+        "unit": "cup",
+        "notes": "~60 g plain yogurt, whisked smooth",
+        "category": "Dairy",
+        "optional": false,
+        "pantryKey": "yogurt"
+      },
+      {
+        "name": "Water",
+        "amount": 2,
+        "unit": "cups",
+        "notes": "liquid base (reduced to balance yogurt moisture)",
+        "category": "Liquids",
+        "optional": false,
+        "pantryKey": null
+      },
+      {
+        "name": "Fine salt",
+        "amount": 1,
+        "unit": "tsp",
+        "notes": "1 level tsp",
+        "category": "Spices & Seasoning",
+        "optional": false,
+        "pantryKey": null
+      },
+      {
+        "name": "Freshly cracked black pepper",
+        "amount": 0.25,
+        "unit": "tsp",
+        "notes": "coarsely ground",
+        "category": "Spices & Seasoning",
+        "optional": false,
+        "pantryKey": null
+      },
+      {
+        "name": "Chicken stock cube (bouillon)",
+        "amount": 0.5,
+        "unit": "cube",
+        "notes": "crumbled into broth",
+        "category": "Spices & Seasoning",
+        "optional": false,
+        "pantryKey": null
+      },
+      {
+        "name": "Garlic (sliced or paste)",
+        "amount": 1.5,
+        "unit": "cloves",
+        "notes": "1–2 cloves sliced or ½ tsp garlic paste (optional)",
+        "category": "Produce",
+        "optional": true,
+        "pantryKey": null
+      },
+      {
+        "name": "Whole aromatics (cumin seeds / bay leaf)",
+        "amount": 0.5,
+        "unit": "tsp",
+        "notes": "pinch of zeera, 1 bay leaf, or 2 cardamom pods (optional)",
+        "category": "Spices & Seasoning",
+        "optional": true,
+        "pantryKey": null
+      }
+    ],
+    "matcherKeys": [
+      "basmati_rice",
+      "cooking_oil",
+      "onions",
+      "green_chilli",
+      "yogurt",
+      "salt",
+      "chicken_cube"
+    ],
+    "instructionsFull": [
+      {
+        "step": 1,
+        "title": "Rinse & Soak the Rice",
+        "phase": "Rice Preparation",
+        "timer": null,
+        "text": "Measure 1 cup of basmati rice into a bowl. Rinse thoroughly with cold tap water, gently agitating the grains. Drain and repeat 3–4 times until the water runs clear. Fill bowl with fresh water and let soak for 15–20 minutes. Whisk ¼ cup plain yogurt in a small bowl until completely smooth."
+      },
+      {
+        "step": 2,
+        "title": "Fry the Aromatics & Green Chillies",
+        "phase": "Aromatic Bloom",
+        "timer": 4,
+        "text": "Place a medium pot over medium heat and add 2 tbsp of cooking oil or ghee. Add the sliced onion and green chillies (plus whole spices/garlic if using). Sauté for 3 to 4 minutes until the onions turn light golden brown and the green chillies blister, releasing their floral heat into the fat."
+      },
+      {
+        "step": 3,
+        "title": "Stir in Yogurt & Build the Broth",
+        "phase": "Broth & Yogurt Incorporation",
+        "timer": null,
+        "text": "Turn the heat down to low. Pour in the ¼ cup whisked yogurt and stir continuously for 1 minute until it incorporates smoothly with the aromatics and oil without curdling. Pour in 2 cups of water. Add 1 level tsp of salt, black pepper, and the crumbled ½ chicken stock cube. Raise heat to high and bring the broth up to a rolling boil."
+      },
+      {
+        "step": 4,
+        "title": "Add Rice & Simmer",
+        "phase": "Absorption Simmer",
+        "timer": 6,
+        "text": "Thoroughly drain the soaked rice in a strainer. Once the broth is boiling vigorously, slide the drained rice into the pot. Lower the heat to medium-low, cover tightly with a lid, and let it simmer for 5–7 minutes until the rice expands and absorbs most of the liquid."
+      },
+      {
+        "step": 5,
+        "title": "Reduce Surface Moisture",
+        "phase": "Moisture Reduction",
+        "timer": 2,
+        "text": "Remove the lid. Turn heat up to medium for 1 to 2 minutes to cook off standing surface moisture until small steam vents (\"craters\") open on the rice surface."
+      },
+      {
+        "step": 6,
+        "title": "The Steam Finish (Dum)",
+        "phase": "Low Steam (Dum)",
+        "timer": 6,
+        "timerMax": 8,
+        "text": "Drop the heat to the lowest possible setting. Place the lid back on (optionally wrapped in a clean kitchen towel to catch drips). Let it steam on lowest flame for 5–7 minutes, or turn the flame off entirely and leave covered for 10 minutes. Fluff gently with a fork from the edges inward before serving."
+      }
+    ],
+    "instructionsStepwise": [
+      {
+        "step": 1,
+        "title": "Rinse & Prep",
+        "text": "Measure 1 cup basmati rice into a bowl. Rinse 3–4 times until water runs clear, then soak in fresh water. Whisk ¼ cup yogurt in a small bowl until completely smooth.",
+        "timer": null
+      },
+      {
+        "step": 2,
+        "title": "Start Aromatics & Chillies",
+        "text": "Heat 2 tbsp oil or ghee in a medium pot over medium heat. Add the sliced onion and green chillies (and whole spices/fresh garlic if using). Sauté for 3–4 minutes until onions turn light golden and chillies blister.",
+        "timer": 4
+      },
+      {
+        "step": 3,
+        "title": "Blend Yogurt & Build Broth",
+        "text": "Lower heat to low. Stir in ¼ cup whisked yogurt and cook for 1 minute until well incorporated into the aromatics. Pour in 2 cups of water. Add 1 level tsp salt, black pepper, and crumbled ½ chicken stock cube. Increase heat to high to bring to a rolling boil.",
+        "timer": null
+      },
+      {
+        "step": 4,
+        "title": "Add Rice & Simmer Covered",
+        "text": "Drain the soaked rice completely. Once the pot is boiling vigorously, drop the rice in. Lower the heat to medium-low, cover with a tight-fitting lid, and let simmer for 5–7 minutes.",
+        "timer": 6
+      },
+      {
+        "step": 5,
+        "title": "Evaporate Surface Liquid",
+        "text": "Once the rice has swelled to take up most of the liquid, remove the lid. Raise heat to medium for ~2 minutes to drive off standing surface water until small steam vents open.",
+        "timer": 2
+      },
+      {
+        "step": 6,
+        "title": "Steam Finish (Dum)",
+        "text": "When surface water is gone, drop heat to the lowest possible setting. Cover tightly and let steam for 5–7 minutes (or turn flame off and let sit covered for 10 minutes). Fluff with a fork before serving.",
+        "timer": 6
+      }
+    ],
+    "simultaneousOperations": "While the rice soaks for 15 minutes before cooking: Slice onions and chillies, whisk the yogurt smooth, and measure your seasonings.",
+    "chefsNotes": [
+      {
+        "title": "Preventing yogurt split",
+        "body": "Whisking the yogurt smooth before adding and dropping the burner to low heat for the first 60 seconds of stirring ensures the dairy blends into a silky gravy base without separating."
+      },
+      {
+        "title": "Balanced moisture ratio",
+        "body": "Basmati rice needs 2 ¼ cups total liquid per cup of rice; the ¼ cup yogurt provides both rich fat and liquid, meaning 2 cups of water gives you textbook separate grains with zero sogginess."
+      },
+      {
+        "title": "Spice level control",
+        "body": "Slit the chillies lengthwise for a fragrant, medium warmth; slice them into thin coins if you want fiery, tongue-tingling green heat throughout every forkful."
+      }
+    ],
+    "combinesWith": [
+      "grilled-chicken",
+      "seekh-kabab-karahi",
+      "chicken-handi"
+    ]
+  },
+  {
     "id": "cheesy-pasta",
     "title": "Easy Cheesy Pasta with Crispy Chicken",
     "shortTitle": "Easy Cheesy Pasta",
-    "number": 3,
+    "number": 4,
     "emoji": "🍝",
     "category": "Pasta & Italian-Fusion",
     "tagline": "A creamy, comforting pink sauce pasta topped with crunchy golden tenders.",
@@ -956,7 +1210,7 @@ const RECIPES = [
     "id": "french-bread-pizza",
     "title": "Easy French Bread Pizza (TM)",
     "shortTitle": "French Bread Pizza",
-    "number": 4,
+    "number": 5,
     "emoji": "🥖",
     "category": "Quick Pizza & Bakes",
     "tagline": "Crunchy bottom, soft crumb, topped with spicy chicken or seekh kebabs and mayo drizzle.",
@@ -1150,14 +1404,15 @@ const RECIPES = [
     ],
     "combinesWith": [
       "grilled-chicken",
-      "loaded-pizza"
+      "pizza-upgrade",
+      "easy-pizza"
     ]
   },
   {
     "id": "seekh-kabab-karahi",
     "title": "Quick Seekh Kabab Karahi (TM)",
     "shortTitle": "Seekh Kabab Karahi",
-    "number": 5,
+    "number": 6,
     "emoji": "🥘",
     "category": "Karahi & Dhaba",
     "tagline": "A fast, savory dhaba-style karahi turning frozen kebabs into a rich curry in 15 mins.",
@@ -1361,14 +1616,15 @@ const RECIPES = [
       }
     ],
     "combinesWith": [
-      "misc-rice"
+      "misc-rice",
+      "green-chilli-rice"
     ]
   },
   {
     "id": "chicken-handi",
     "title": "Easy Chicken Handi (Creamy Dhaba Style)",
     "shortTitle": "Easy Chicken Handi",
-    "number": 6,
+    "number": 7,
     "emoji": "🍲",
     "category": "Handi & Curries",
     "tagline": "A silky, mildly spiced stovetop white handi that skips complicated gravy bases.",
@@ -1538,7 +1794,7 @@ const RECIPES = [
         "title": "Cheese Melt & Finish",
         "phase": "Finish & Velvet",
         "timer": 1,
-        "text": "Turn the heat completely off. Optional step: Scatter the shredded cheese over the surface, pop the lid on for 1 minute to let it melt in the residual steam, then gently fold it through the gravy until velvety smooth. Dust with fresh black pepper and rubbed kasuri methi."
+        "text": "Turn the heat completely off. Optional step: Scatter the shredded cheese over the surface, pop the lid on for 1 minute to let it melt in the residual steam, then gently fold it through the gravy until velvety smooth. Dust with fresh black pepper, rubbed kasuri methi, and garnish with freshly chopped coriander and julienned ginger before serving."
       }
     ],
     "instructionsStepwise": [
@@ -1569,7 +1825,7 @@ const RECIPES = [
       {
         "step": 5,
         "title": "Cheese Melt & Finish",
-        "text": "Turn the stove off. Scatter shredded cheese over the surface (optional), cover for 1 minute to melt, then fold through the gravy. Dust with black pepper and crushed kasuri methi.",
+        "text": "Turn the stove off. Scatter shredded cheese over the surface (optional), cover for 1 minute to melt, then fold through the gravy. Dust with black pepper, crushed kasuri methi, and garnish with fresh coriander and julienned ginger.",
         "timer": 1
       }
     ],
@@ -1585,14 +1841,15 @@ const RECIPES = [
       }
     ],
     "combinesWith": [
-      "misc-rice"
+      "misc-rice",
+      "green-chilli-rice"
     ]
   },
   {
     "id": "chicken-sandwich",
     "title": "Crispy & Tangy Grilled Chicken Sandwich",
     "shortTitle": "Tangy Chicken Sandwich",
-    "number": 7,
+    "number": 8,
     "emoji": "🥪",
     "category": "Deli & Sandwiches",
     "tagline": "A deli-style stack engineered with a double-sauce moisture barrier to keep the bread crisp.",
@@ -1771,14 +2028,14 @@ const RECIPES = [
     ]
   },
   {
-    "id": "loaded-pizza",
-    "title": "Easy Loaded Upgrade Pizza",
-    "shortTitle": "Loaded Upgrade Pizza",
-    "number": 8,
+    "id": "pizza-upgrade",
+    "title": "Pizza Upgrade",
+    "shortTitle": "Pizza Upgrade",
+    "number": 9,
     "emoji": "🍕",
     "category": "Pizza & Bakes",
-    "tagline": "The ultimate cheat code: doctoring up frozen cheese pizza or bare crust into bakery style.",
-    "description": "The ultimate cheat code for pizza night—either building directly on a store-bought par-baked pizza base or doctoring up a basic frozen cheese pizza into a spicy, loaded bakery-style pie with meat, peppers, extra cheese, and signature mayo drizzle.",
+    "tagline": "The ultimate cheat code: doctoring up a basic frozen cheese pizza into a bakery-style loaded pie.",
+    "description": "The ultimate cheat code for pizza night—doctoring up a basic, inexpensive frozen or deli cheese pizza into a loaded, bakery-style pie with seasoned chicken or kebabs, peppers, an extra cheese blanket, and garlic-mayo drizzle.",
     "prepTime": "5 mins",
     "cookTime": "10 mins",
     "totalTime": "15 mins",
@@ -1790,6 +2047,7 @@ const RECIPES = [
       "Pizza",
       "Cheat Code",
       "Bakery Style",
+      "Quick Dinner",
       "Comfort Food",
       "Oven"
     ],
@@ -1800,13 +2058,13 @@ const RECIPES = [
     ],
     "ingredients": [
       {
-        "name": "Base: Frozen cheese pizza OR par-baked pizza crust + sauce",
+        "name": "Base: Plain frozen or deli cheese pizza",
         "amount": 1,
-        "unit": "base",
-        "notes": "1 frozen cheese pizza (10–12\") OR 1 bare par-baked crust + 3–4 tbsp sauce",
+        "unit": "pizza",
+        "notes": "1 plain frozen or deli cheese pizza (10–12\"), no extra sauce needed",
         "category": "Bakery",
         "optional": false,
-        "pantryKey": "pizza_sauce"
+        "pantryKey": null
       },
       {
         "name": "Protein: Default Grilled Chicken or Seekh Kebabs",
@@ -1839,10 +2097,229 @@ const RECIPES = [
         "name": "Additional shredded cheese (mozzarella or cheddar)",
         "amount": 0.75,
         "unit": "cup",
-        "notes": "½ to 1 cup additional shredded cheese blanket",
+        "notes": "½ to 1 cup additional shredded cheese blanket to lock toppings",
         "category": "Dairy",
         "optional": false,
         "pantryKey": "shredded_cheese"
+      },
+      {
+        "name": "Garlic powder",
+        "amount": 0.5,
+        "unit": "tsp",
+        "notes": "dusted over cheese",
+        "category": "Spices & Seasoning",
+        "optional": false,
+        "pantryKey": null
+      },
+      {
+        "name": "Crushed red chilli flakes",
+        "amount": 0.75,
+        "unit": "tsp",
+        "notes": "½ to 1 tsp crushed chillies",
+        "category": "Spices & Seasoning",
+        "optional": false,
+        "pantryKey": null
+      },
+      {
+        "name": "Dried oregano",
+        "amount": 1,
+        "unit": "pinch",
+        "notes": "classic pizzeria aroma (optional)",
+        "category": "Spices & Seasoning",
+        "optional": true,
+        "pantryKey": null
+      },
+      {
+        "name": "Mayonnaise",
+        "amount": 1.5,
+        "unit": "tbsp",
+        "notes": "1–2 tbsp zigzagged across toppings before bake",
+        "category": "Sauces & Condiments",
+        "optional": false,
+        "pantryKey": "mayonnaise"
+      }
+    ],
+    "matcherKeys": [
+      "pizza_crust",
+      "chicken",
+      "seekh_kabab",
+      "onions",
+      "bell_pepper",
+      "shredded_cheese",
+      "mayonnaise"
+    ],
+    "instructionsFull": [
+      {
+        "step": 1,
+        "title": "Preheat the Oven",
+        "phase": "Oven Crank",
+        "timer": null,
+        "text": "Crank your oven to 200°C (400°F). Preheating a baking stone or sheet pan inside the oven ensures the bottom crust turns crunchy and never soggy."
+      },
+      {
+        "step": 2,
+        "title": "The Base Setup",
+        "phase": "Base Preparation",
+        "text": "Unwrap your plain frozen or deli cheese pizza. Lay it directly on your prep board or baking sheet—no extra sauce needed, as the cheese and sauce foundation is already in place."
+      },
+      {
+        "step": 3,
+        "title": "Layer the Toppings",
+        "phase": "Proteins & Veggies",
+        "text": "Distribute your chopped grilled chicken or sliced seekh kebabs evenly across the surface. Scatter the sliced onions and bell peppers over the meat."
+      },
+      {
+        "step": 4,
+        "title": "Cheese Blanket & Seasoning",
+        "phase": "Blanket & Mayo Zigzag",
+        "text": "Top with your extra shredded cheese to lock the toppings in place and prevent the meat from drying out under high heat. Dust evenly with garlic powder, crushed red chilli flakes, and dried oregano. Zigzag a thin spiral or grid of mayonnaise over the top."
+      },
+      {
+        "step": 5,
+        "title": "Bake to Golden",
+        "phase": "Bake & High Broil",
+        "timer": 10,
+        "timerMax": 12,
+        "text": "Slide onto the preheated baking sheet on the middle oven rack. Bake for 9 to 12 minutes until the bottom crust is firm and crispy. The Finish: Switch to Broil / High Grill for the final 1 to 2 minutes until the cheese is bubbling with toasted brown spots and the mayo slightly sizzles."
+      },
+      {
+        "step": 6,
+        "title": "Slice & Serve",
+        "phase": "Rest & Slice",
+        "timer": 2,
+        "text": "Let it rest on a cutting board for 2 minutes (so the melted cheese doesn't slide off when cut), slice into 6 or 8 wedges, and serve hot."
+      }
+    ],
+    "instructionsStepwise": [
+      {
+        "step": 1,
+        "title": "Preheat Oven",
+        "text": "Preheat oven to 200°C (400°F). Place a baking sheet inside to heat up if you want a crispier base.",
+        "timer": null
+      },
+      {
+        "step": 2,
+        "title": "Set the Foundation",
+        "text": "Unwrap the plain frozen or deli cheese pizza and place directly on a prep tray (no extra sauce needed).",
+        "timer": null
+      },
+      {
+        "step": 3,
+        "title": "Toppings & Cheese",
+        "text": "Distribute the chopped chicken or sliced kebabs evenly over the pizza. Scatter the sliced onions and bell peppers. Blanket the toppings with the extra shredded cheese.",
+        "timer": null
+      },
+      {
+        "step": 4,
+        "title": "Season & Drizzle",
+        "text": "Dust the top with garlic powder, crushed chillies, and oregano. Zigzag 1–2 tbsp of mayonnaise across the cheese.",
+        "timer": null
+      },
+      {
+        "step": 5,
+        "title": "Bake & Broil",
+        "text": "Bake at 200°C for 9–11 minutes until the crust is crisp. Switch to high broil/grill for 1–2 minutes until the cheese is blistered with golden spots and the mayo sizzles. Rest for 2 minutes before slicing.",
+        "timer": 10
+      }
+    ],
+    "simultaneousOperations": "Slice onions, peppers, and protein while the oven is preheating to 200°C.",
+    "chefsNotes": [
+      {
+        "title": "Lock toppings with cheese",
+        "body": "Putting the extra cheese over the meat and vegetables traps steam, keeping the pre-cooked chicken or kebabs juicy rather than dry and tough."
+      },
+      {
+        "title": "Preheated tray effect",
+        "body": "Sliding the pizza onto a baking sheet that has been heating inside the oven instantly sets the bottom crust, eliminating soggy centers."
+      }
+    ],
+    "combinesWith": [
+      "grilled-chicken",
+      "french-bread-pizza"
+    ]
+  },
+  {
+    "id": "easy-pizza",
+    "title": "Easy Pizza",
+    "shortTitle": "Easy Pizza",
+    "number": 10,
+    "emoji": "🍕",
+    "category": "Pizza & Bakes",
+    "tagline": "A fast, customizable personal pizza built from a bare par-baked crust.",
+    "description": "A fast, customizable personal pizza built from a bare par-baked pizza crust. Layered with seasoned pizza sauce, a baseline cheese scatter, high-yield protein, crisp peppers and onions, an oven-melted cheese blanket, and a tangy mayo drizzle.",
+    "prepTime": "5 mins",
+    "cookTime": "10 mins",
+    "totalTime": "15 mins",
+    "servings": "1 pizza (6–8 slices)",
+    "servingsBase": 6,
+    "difficulty": "Easy",
+    "cookingMethod": "Oven / Broil",
+    "tags": [
+      "Pizza",
+      "Quick Dinner",
+      "Bakery Style",
+      "Comfort Food",
+      "Oven"
+    ],
+    "equipment": [
+      "Baking sheet or preheated pizza stone",
+      "Pizza cutter or chef's knife",
+      "Cutting board"
+    ],
+    "ingredients": [
+      {
+        "name": "Base: Bare par-baked pizza crust",
+        "amount": 1,
+        "unit": "crust",
+        "notes": "1 par-baked pizza crust / base (10–12\")",
+        "category": "Bakery",
+        "optional": false,
+        "pantryKey": null
+      },
+      {
+        "name": "Pizza sauce or prepared tomato sauce",
+        "amount": 3.5,
+        "unit": "tbsp",
+        "notes": "3–4 tbsp pizza sauce or tomato-mascarpone sauce",
+        "category": "Sauces",
+        "optional": false,
+        "pantryKey": "pizza_sauce"
+      },
+      {
+        "name": "Shredded cheese (mozzarella or cheddar)",
+        "amount": 1.25,
+        "unit": "cups",
+        "notes": "1 to 1 ½ cups shredded cheese (divided: ¼ cup for base, remainder for top)",
+        "category": "Dairy",
+        "optional": false,
+        "pantryKey": "shredded_cheese"
+      },
+      {
+        "name": "Protein: Default Grilled Chicken or Seekh Kebabs",
+        "amount": 1,
+        "unit": "cup",
+        "notes": "1 cup chopped Grilled Chicken OR 2 cooked Seekh Kebabs sliced into rounds",
+        "category": "Meat & Protein",
+        "optional": false,
+        "pantryKey": "seekh_kabab"
+      },
+      {
+        "name": "Onion",
+        "amount": 0.25,
+        "unit": "small",
+        "notes": "thinly sliced or finely diced",
+        "category": "Produce",
+        "optional": false,
+        "pantryKey": "onions"
+      },
+      {
+        "name": "Green bell pepper (capsicum / shimla mirch)",
+        "amount": 0.25,
+        "unit": "item",
+        "notes": "thinly sliced or diced",
+        "category": "Produce",
+        "optional": false,
+        "pantryKey": "bell_pepper"
       },
       {
         "name": "Garlic powder",
@@ -1897,13 +2374,13 @@ const RECIPES = [
         "title": "Preheat the Oven",
         "phase": "Oven Crank",
         "timer": null,
-        "text": "Crank your oven to 200°C (400°F). If using a bare pizza base on a baking tray, preheating a baking stone or sheet pan inside the oven ensures a crispy bottom crust."
+        "text": "Crank your oven to 200°C (400°F). Preheat a baking sheet or pizza stone inside the oven to ensure a crisp, sturdy bottom crust."
       },
       {
         "step": 2,
-        "title": "The Base Setup",
-        "phase": "Base Preparation",
-        "text": "If using a bare base: Spread 3 to 4 tbsp of tomato sauce evenly, leaving a ½-inch border around the edge for the crust. Add a light baseline scatter of cheese. If using a plain cheese pizza: Lay it directly on your prep board or baking sheet—no extra sauce needed."
+        "title": "Sauce & Base Foundation",
+        "phase": "Base Foundation",
+        "text": "Place the bare crust on a prep tray or cutting board. Spread 3 to 4 tbsp of tomato sauce evenly, leaving a ½-inch border around the edge for the crust. Scatter a light baseline layer of shredded cheese (~¼ cup) directly over the sauce. (This anchors the toppings and keeps the dough from getting soggy)."
       },
       {
         "step": 3,
@@ -1913,9 +2390,9 @@ const RECIPES = [
       },
       {
         "step": 4,
-        "title": "Cheese & Seasoning",
+        "title": "Cheese Blanket & Seasoning",
         "phase": "Blanket & Mayo Zigzag",
-        "text": "Top with your extra shredded cheese to lock the toppings in place and prevent the meat from drying out under high heat. Dust evenly with garlic powder, crushed red chilli flakes, and dried oregano. Zigzag a thin spiral or grid of mayonnaise over the top."
+        "text": "Top with the remaining shredded cheese to lock the toppings in place right up to the crust edge. Dust evenly with garlic powder, crushed red chilli flakes, and dried oregano. Zigzag a thin spiral or grid of mayonnaise over the top."
       },
       {
         "step": 5,
@@ -1923,57 +2400,57 @@ const RECIPES = [
         "phase": "Bake & High Broil",
         "timer": 9,
         "timerMax": 11,
-        "text": "Slide onto the middle oven rack. Bake for 8 to 12 minutes until the bottom crust is firm and crispy. The Finish: Switch to Broil / High Grill for the final 1 to 2 minutes until the cheese is bubbling with toasted brown spots and the mayo slightly sizzles."
+        "text": "Slide onto the preheated baking sheet on the middle oven rack. Bake for 8 to 10 minutes until the bottom crust is firm and crispy. The Finish: Switch to Broil / High Grill for the final 1 to 2 minutes until the cheese is blistered with toasted golden spots and the mayo sizzles."
       },
       {
         "step": 6,
         "title": "Slice & Serve",
         "phase": "Rest & Slice",
         "timer": 2,
-        "text": "Let it rest on a cutting board for 2 minutes (so the melted cheese doesn't slide off when cut), slice into 6 or 8 wedges, and serve hot."
+        "text": "Let it rest on a cutting board for 2 minutes (so the molten cheese doesn't slide off when cut), slice into 6 or 8 wedges, and serve hot."
       }
     ],
     "instructionsStepwise": [
       {
         "step": 1,
         "title": "Preheat Oven",
-        "text": "Preheat oven to 200°C (400°F). Place a baking sheet inside to heat up if you want a crispier base.",
+        "text": "Preheat oven to 200°C (400°F). Place a baking sheet inside to heat up for a crisp bottom crust.",
         "timer": null
       },
       {
         "step": 2,
-        "title": "Set the Foundation",
-        "text": "If using a bare crust: spread 3–4 tbsp pizza sauce, leaving a ½-inch border. If using a frozen/deli cheese pizza: place directly on a prep tray (no sauce needed).",
+        "title": "Sauce & Foundation",
+        "text": "Place bare crust on a tray. Spread 3–4 tbsp pizza sauce, leaving a ½-inch border. Scatter a light baseline of shredded cheese (~¼ cup) directly over the sauce.",
         "timer": null
       },
       {
         "step": 3,
-        "title": "Toppings & Cheese",
-        "text": "Distribute the chopped chicken or sliced kebabs evenly over the pizza. Scatter the sliced onions and bell peppers. Blanket the toppings with the extra shredded cheese.",
+        "title": "Layer Toppings",
+        "text": "Distribute chopped chicken or sliced kebabs evenly over the base. Scatter sliced onions and bell peppers.",
         "timer": null
       },
       {
         "step": 4,
-        "title": "Season & Drizzle",
-        "text": "Dust the top with garlic powder, crushed chillies, and oregano. Zigzag 1–2 tbsp of mayonnaise across the cheese.",
+        "title": "Blanket & Season",
+        "text": "Blanket the toppings with the remaining shredded cheese right to the crust border. Dust with garlic powder, crushed chillies, and oregano. Zigzag 1–2 tbsp of mayonnaise across the cheese.",
         "timer": null
       },
       {
         "step": 5,
         "title": "Bake & Broil",
-        "text": "Bake at 200°C for 8–10 minutes until the crust is crisp. Switch to high broil/grill for 1–2 minutes until the cheese is blistered with golden spots and the mayo sizzles. Rest for 2 minutes before slicing.",
+        "text": "Slide onto the preheated baking sheet. Bake at 200°C for 8–10 minutes until crust is crisp. Switch to high broil/grill for 1–2 minutes until cheese is blistered with golden spots. Rest for 2 minutes before slicing.",
         "timer": 9
       }
     ],
-    "simultaneousOperations": "Slice onions, peppers, and protein while the oven is preheating to 200°C.",
+    "simultaneousOperations": "Slice onions, peppers, and protein while the oven and baking sheet preheat to 200°C.",
     "chefsNotes": [
       {
-        "title": "Lock toppings with cheese",
-        "body": "Putting the extra cheese over the meat and vegetables (rather than under) traps steam, keeping the grilled chicken or kebabs juicy rather than dry and tough."
+        "title": "Baseline cheese secret",
+        "body": "Scattering a light layer of cheese before adding the toppings acts as culinary glue between sauce and meat, preventing the entire topping layer from sliding off on your first bite."
       },
       {
-        "title": "Preheated tray effect",
-        "body": "Sliding the pizza onto a baking sheet that has been heating inside the oven instantly sets the bottom crust, eliminating soggy centers."
+        "title": "Baking on preheated metal",
+        "body": "Bare par-baked crusts cook fast. Putting them on a sizzling-hot preheated baking sheet gives that authentic pizzeria crunch on the base within 8 minutes."
       }
     ],
     "combinesWith": [
@@ -1983,66 +2460,191 @@ const RECIPES = [
   }
 ];
 
-// Flattened list of all searchable ingredients for the ingredient matcher
 const ALL_INGREDIENTS = [
-  { id: "chicken", name: "Chicken (Boneless breast/thigh or cooked)", category: "Meat & Poultry", emoji: "🍗" },
-  { id: "seekh_kabab", name: "Seekh Kebabs (Beef or Chicken)", category: "Freezer Staples", emoji: "🍢" },
-  { id: "frozen_tenders", name: "Frozen Chicken Tenders / Cutlets", category: "Freezer Staples", emoji: "🍗" },
-  { id: "basmati_rice", name: "Basmati Rice", category: "Grains", emoji: "🍚" },
-  { id: "pasta", name: "Dry Pasta (Penne / Rigatoni / Fusilli)", category: "Grains", emoji: "🍝" },
-  { id: "bread", name: "Sandwich Bread", category: "Bakery", emoji: "🍞" },
-  { id: "french_roll", name: "French Roll / Baguette", category: "Bakery", emoji: "🥖" },
-  { id: "pizza_crust", name: "Pizza Crust / Frozen Cheese Pizza", category: "Bakery & Freezer", emoji: "🍕" },
-  { id: "canned_tomatoes", name: "Canned Tomatoes (Diced/Crushed)", category: "Canned", emoji: "🥫" },
-  { id: "pizza_sauce", name: "Pizza Sauce / Marinara Sauce", category: "Sauces", emoji: "🥫" },
-  { id: "cream", name: "Cooking Cream / Heavy Cream", category: "Dairy", emoji: "🥛" },
-  { id: "yogurt", name: "Plain Yogurt (Dahi)", category: "Dairy", emoji: "🥣" },
-  { id: "shredded_cheese", name: "Shredded Cheese (Mozzarella / Cheddar)", category: "Dairy", emoji: "🧀" },
-  { id: "butter", name: "Butter", category: "Dairy", emoji: "🧈" },
-  { id: "onions", name: "Onions", category: "Produce", emoji: "🧅" },
-  { id: "bell_pepper", name: "Shimla Mirch (Bell Pepper / Capsicum)", category: "Produce", emoji: "🫑" },
-  { id: "garlic", name: "Garlic (Fresh cloves or paste)", category: "Produce", emoji: "🧄" },
-  { id: "ginger_garlic", name: "Ginger-Garlic Paste", category: "Produce", emoji: "🧄" },
-  { id: "lemon_juice", name: "Lemon Juice", category: "Produce", emoji: "🍋" },
-  { id: "lettuce", name: "Lettuce (Iceberg / Romaine)", category: "Produce", emoji: "🥬" },
-  { id: "pickles", name: "Dill Pickles", category: "Produce & Condiments", emoji: "🥒" },
-  { id: "mayonnaise", name: "Mayonnaise", category: "Sauces", emoji: "🥪" },
-  { id: "sriracha_mayo", name: "Sriracha Mayo", category: "Sauces", emoji: "🌶️" },
-  { id: "cooking_oil", name: "Cooking Oil / Ghee", category: "Pantry", emoji: "🫗" },
-  { id: "tikka_masala", name: "Tikka / Tandoori Masala Packet", category: "Spices", emoji: "🌶️" },
-  { id: "chicken_cube", name: "Chicken Stock Cube / Bouillon", category: "Spices", emoji: "🧊" },
-  { id: "salt", name: "Salt", category: "Spices", emoji: "🧂" },
-  { id: "black_pepper", name: "Black Pepper", category: "Spices", emoji: "🧂" },
-  { id: "chilli_flakes", name: "Crushed Red Chilli Flakes", category: "Spices", emoji: "🌶️" },
-  { id: "chilli_powder", name: "Red Chilli Powder", category: "Spices", emoji: "🌶️" }
+  {
+    "id": "chicken",
+    "name": "Chicken (Boneless breast/thigh or cooked)",
+    "category": "Meat & Poultry",
+    "emoji": "🍗"
+  },
+  {
+    "id": "seekh_kabab",
+    "name": "Seekh Kebabs (Beef or Chicken)",
+    "category": "Freezer Staples",
+    "emoji": "🍢"
+  },
+  {
+    "id": "frozen_tenders",
+    "name": "Frozen Chicken Tenders / Cutlets",
+    "category": "Freezer Staples",
+    "emoji": "🍗"
+  },
+  {
+    "id": "basmati_rice",
+    "name": "Basmati Rice",
+    "category": "Grains",
+    "emoji": "🍚"
+  },
+  {
+    "id": "pasta",
+    "name": "Dry Pasta (Penne / Rigatoni / Fusilli)",
+    "category": "Grains",
+    "emoji": "🍝"
+  },
+  {
+    "id": "bread",
+    "name": "Sandwich Bread",
+    "category": "Bakery",
+    "emoji": "🍞"
+  },
+  {
+    "id": "french_roll",
+    "name": "French Roll / Baguette",
+    "category": "Bakery",
+    "emoji": "🥖"
+  },
+  {
+    "id": "pizza_crust",
+    "name": "Pizza Crust / Frozen Cheese Pizza",
+    "category": "Bakery & Freezer",
+    "emoji": "🍕"
+  },
+  {
+    "id": "canned_tomatoes",
+    "name": "Canned Tomatoes (Diced/Crushed)",
+    "category": "Canned",
+    "emoji": "🥫"
+  },
+  {
+    "id": "pizza_sauce",
+    "name": "Pizza Sauce / Marinara Sauce",
+    "category": "Sauces",
+    "emoji": "🥫"
+  },
+  {
+    "id": "cream",
+    "name": "Cooking Cream / Heavy Cream",
+    "category": "Dairy",
+    "emoji": "🥛"
+  },
+  {
+    "id": "yogurt",
+    "name": "Plain Yogurt (Dahi)",
+    "category": "Dairy",
+    "emoji": "🥣"
+  },
+  {
+    "id": "shredded_cheese",
+    "name": "Shredded Cheese (Mozzarella / Cheddar)",
+    "category": "Dairy",
+    "emoji": "🧀"
+  },
+  {
+    "id": "butter",
+    "name": "Butter",
+    "category": "Dairy",
+    "emoji": "🧈"
+  },
+  {
+    "id": "onions",
+    "name": "Onions",
+    "category": "Produce",
+    "emoji": "🧅"
+  },
+  {
+    "id": "bell_pepper",
+    "name": "Shimla Mirch (Bell Pepper / Capsicum)",
+    "category": "Produce",
+    "emoji": "🫑"
+  },
+  {
+    "id": "green_chilli",
+    "name": "Fresh Green Chillies",
+    "category": "Produce",
+    "emoji": "🌶️"
+  },
+  {
+    "id": "garlic",
+    "name": "Garlic (Fresh cloves or paste)",
+    "category": "Produce",
+    "emoji": "🧄"
+  },
+  {
+    "id": "ginger_garlic",
+    "name": "Ginger-Garlic Paste",
+    "category": "Produce",
+    "emoji": "🧄"
+  },
+  {
+    "id": "lemon_juice",
+    "name": "Lemon Juice",
+    "category": "Produce",
+    "emoji": "🍋"
+  },
+  {
+    "id": "lettuce",
+    "name": "Lettuce (Iceberg / Romaine)",
+    "category": "Produce",
+    "emoji": "🥬"
+  },
+  {
+    "id": "pickles",
+    "name": "Dill Pickles",
+    "category": "Produce & Condiments",
+    "emoji": "🥒"
+  },
+  {
+    "id": "mayonnaise",
+    "name": "Mayonnaise",
+    "category": "Sauces",
+    "emoji": "🥪"
+  },
+  {
+    "id": "sriracha_mayo",
+    "name": "Sriracha Mayo",
+    "category": "Sauces",
+    "emoji": "🌶️"
+  },
+  {
+    "id": "cooking_oil",
+    "name": "Cooking Oil / Ghee",
+    "category": "Pantry",
+    "emoji": "🫗"
+  },
+  {
+    "id": "tikka_masala",
+    "name": "Tikka / Tandoori Masala Packet",
+    "category": "Spices",
+    "emoji": "🌶️"
+  },
+  {
+    "id": "chicken_cube",
+    "name": "Chicken Stock Cube / Bouillon",
+    "category": "Spices",
+    "emoji": "🧊"
+  },
+  {
+    "id": "salt",
+    "name": "Salt",
+    "category": "Spices",
+    "emoji": "🧂"
+  },
+  {
+    "id": "black_pepper",
+    "name": "Black Pepper",
+    "category": "Spices",
+    "emoji": "🧂"
+  },
+  {
+    "id": "chilli_flakes",
+    "name": "Crushed Red Chilli Flakes",
+    "category": "Spices",
+    "emoji": "🌶️"
+  },
+  {
+    "id": "chilli_powder",
+    "name": "Red Chilli Powder",
+    "category": "Spices",
+    "emoji": "🌶️"
+  }
 ];
-
-// Helper functions
-function getRecipeById(id) {
-  return RECIPES.find(r => r.id === id) || null;
-}
-
-function getPantryItemById(id) {
-  return PANTRY_ITEMS.find(p => p.id === id) || null;
-}
-
-// Universal export: attaches to window.CookbookData in browsers and module.exports in Node/bundlers
-if (typeof window !== 'undefined') {
-  window.CookbookData = {
-    PANTRY_ITEMS,
-    RECIPES,
-    ALL_INGREDIENTS,
-    getRecipeById,
-    getPantryItemById
-  };
-}
-
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    PANTRY_ITEMS,
-    RECIPES,
-    ALL_INGREDIENTS,
-    getRecipeById,
-    getPantryItemById
-  };
-}

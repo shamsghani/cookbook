@@ -1532,6 +1532,8 @@
     initModalControls();
 
     // Initial renders
+    const navRecipesCount = document.getElementById('nav-recipes-count');
+    if (navRecipesCount) navRecipesCount.textContent = RECIPES.length;
     renderRecipes();
     renderMatcher();
     renderPantry();
